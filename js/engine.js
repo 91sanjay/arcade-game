@@ -28,7 +28,6 @@ var Engine = (function(global) {
 
     var start = doc.getElementById("start-button");
     var stop = doc.getElementById("stop-button");
-    var play;
 
     canvas.width = 505;
     canvas.height = 606;
@@ -44,6 +43,7 @@ var Engine = (function(global) {
 
         stop.onclick = function() {
             reset();
+            console.log("clicked");
         }
     }
 
@@ -52,9 +52,9 @@ var Engine = (function(global) {
      * game loop.
      */
     function init() {
-        reset();
         lastTime = Date.now();
         render();
+        // chooseAvatar();
         main();
     }
 
@@ -125,7 +125,6 @@ var Engine = (function(global) {
             }
         }
 
-
         renderEntities();
     }
 
@@ -149,7 +148,6 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // noop
         allEnemies.forEach(function(enemy) {
             enemy.resetPosition();
         });
@@ -184,6 +182,71 @@ var Engine = (function(global) {
          */
 
         win.requestAnimationFrame(play);
+    }
+
+    var rules = doc.getElementById("rules-button");
+    var avatar = doc.getElementById("avatar-button");
+    var rulesCancel = doc.getElementById("rules-cancel");
+    var avatarCancel = doc.getElementById("avatar-cancel");
+
+    rules.addEventListener("click", displayRules);
+    avatar.addEventListener("click", displayAvatars);
+    rulesCancel.addEventListener("click", closeRules);
+    avatarCancel.addEventListener("click", closeAvatar);
+
+
+    function displayRules() {
+        console.log("called");
+        var modal = doc.getElementById("rules");
+        var display = window.getComputedStyle(modal, '').getPropertyValue("display");
+        if (display == "none") {
+            console.log("YES!!!!!");
+            modal.style.display = "block";
+        }
+    }
+
+    function displayAvatars() {
+        var modal = doc.getElementById("avatar");
+        var display = window.getComputedStyle(modal, '').getPropertyValue("display");
+        if (display == "none") {
+            console.log("YES!!!!!");
+            modal.style.display = "block";
+        }
+    }
+
+    function closeRules() {
+        var modal = doc.getElementById("rules");
+        var display = window.getComputedStyle(modal, '').getPropertyValue("display");
+
+        if (display != "none") {
+            modal.style.display = "none";
+        }
+    }
+
+    function closeAvatar() {
+        var modal = doc.getElementById("avatar");
+        var display = window.getComputedStyle(modal, '').getPropertyValue("display");
+
+        if (display != "none") {
+            modal.style.display = "none";
+        }
+    }
+
+    var avatar = "images/char-boy.png";
+    var boy = doc.getElementById("boy");
+    var catGirl = doc.getElementById("cat-girl");
+    var pinkGirl = doc.getElementById("pink-girl");
+    var princess = doc.getElementById("princess");
+
+    boy.addEventListener("click", setAvatar);
+    catGirl.addEventListener("click", setAvatar);
+    pinkGirl.addEventListener("click", setAvatar);
+    princess.addEventListener("click", setAvatar);
+
+    function setAvatar() {
+        // avatar = this.firstChild.getAttribute("src");
+        Resources.load(this.firstChild.getAttribute("src"));
+        player.updateSprite(this.firstChild.getAttribute("src"));
     }
 
     /* Go ahead and load all of the images we know we're going to need to

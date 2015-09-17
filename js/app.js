@@ -50,7 +50,7 @@ Enemy.prototype.render = function() {
 };
 
 Enemy.prototype.resetPosition = function() {
-    ctx.drawImage(Resources.get(this.sprite), -98, this.y);
+    this.x = -98;
 }
 
 // Now write your own player class
@@ -71,6 +71,11 @@ Player.prototype.update = function(dt) {
     if (checkCollision(this)) {
         this.y = 398*dt;
     }
+}
+
+Player.prototype.updateSprite = function(src) {
+    console.log(src);
+    this.sprite = src;
 }
 
 Player.prototype.resetPosition = function() {
