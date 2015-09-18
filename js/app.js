@@ -1,7 +1,15 @@
+/*******************************************************************
+* CONSTANTS
+********************************************************************/
+/** @constant {string } */
 var ROW1 = "Row1";
 var ROW2 = "Row2";
 var ROW3 = "Row3";
-var score = 0;
+
+/*******************************************************************
+* GLOBAL
+********************************************************************/
+/** @global */
 var allEnemies = [];
 var totalEnemies = 4;
 var score = 0;
@@ -14,29 +22,28 @@ enemyPositions.ROW3 = [];
 var getRandomPosition = function() {
     var positionArray = [60, 140, 230];
     var i = Math.floor(Math.random()*(positionArray.length));
-    // console.log(positionArray[i]);
     return positionArray[i];
 }
 
-// Enemies our player must avoid
+/*
+* @class Creates an Enemy object
+* @classdesc Accepts the x y coordinates and sets the sprite to be
+*            used while rendering the enemy
+* @param {number} x
+* @param {number} y
+*/
 var Enemy = function(x, y) {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
     this.x = x;
     this.y = y;
     this.speed = Math.floor((Math.random() * 250) + 125);
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
 };
 
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
+/*
+* @description Updates the position of the enemy
+* @param {number} dt
+*/
 Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
         if (this.x < 505) {
             this.x = this.x + this.speed * dt;
         } else {
@@ -44,44 +51,72 @@ Enemy.prototype.update = function(dt) {
         }
 };
 
-// Draw the enemy on the screen, required method for game
+/*
+* @description Renders the sprite of the enemy on the canvas
+*/
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+/*
+* @description Resets the position of the enemy to put it off canvas
+*/
 Enemy.prototype.resetPosition = function() {
-    this.x = -98;
+    this.x = -110;
 }
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
-
+/*
+* @class Creates an Player object
+* @classdesc Accepts the x y coordinates and sets the sprite to be
+*            used while rendering the player
+* @param {number} x
+* @param {number} y
+*/
 var Player = function(x, y) {
     this.x = x;
     this.y = y;
     this.sprite = 'images/char-boy.png'
 }
 
+/*
+* @description Renders the sprite of the player on the canvas
+*/
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y)
 }
 
+/*
+* @description Updates the position of the player such that the
+*              player moves from one tile to the other
+* @param {number} dt
+*/
 Player.prototype.update = function(dt) {
     if (checkCollision(this)) {
         this.y = 398*dt;
     }
 }
 
+/*
+* @description Updates the sprite of the player
+* @param {String} src
+*/
 Player.prototype.updateSprite = function(src) {
-    console.log(src);
     this.sprite = src;
 }
 
+/*
+* @description Reset the position of the player
+*/
 Player.prototype.resetPosition = function() {
-    ctx.drawImage(Resources.get(this.sprite), 0, 398);
+    this.x = 0;
+    this.y = 398;
 }
 
+/*
+* @description Reads the key strokes and moves the player in the
+*              corresponding direction
+* @param {string} key
+*/
 Player.prototype.handleInput = function(key) {
     if (key == "right" && this.x < 404) {
         this.x += 101;
@@ -93,12 +128,17 @@ Player.prototype.handleInput = function(key) {
         } else {
             this.y = 398;
         }
-        // console.log("y "+this.y);
     } else if (key == "down" && this.y < 398) {
         this.y += 83;
     }
 }
 
+/*
+* @description Checks for collisions betweeen the player and the
+*              enemies. It checks the enemies that are in the same
+*              row as the player
+* @param {object} player
+*/
 var checkCollision = function(player) {
     if (player.y < 100) {
         var enemies = enemyPositions.ROW1;
@@ -124,21 +164,28 @@ var checkCollision = function(player) {
     }
 }
 
+/*
+* @description Helper function for checkCollision. Determines
+*              collisions by checking the difference in x values
+* @param {object} player
+* @param {object} enemy
+*/
 var compareDistance = function(player, enemy) {
     if (Math.abs(enemy.x - player.x) < 50 && player.y<300) {
-        console.log("COLLISION");
         player.y = 398;
         return true;
     }
 }
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
+
+/*
+* Instantiate the player and enemies. Add enemies to global map
+* to track their position on the canvas
+*/
 var pos = getRandomPosition();
 var player = new Player(0, 398);
-var enemy1 = new Enemy(98, 60);
-var enemy2 = new Enemy(98, 140);
-var enemy3 = new Enemy(98, 230);
+var enemy1 = new Enemy(-98, 60);
+var enemy2 = new Enemy(-98, 140);
+var enemy3 = new Enemy(-98, 230);
 var enemy4 = new Enemy(-98, pos);
 
 allEnemies.push(enemy1);
@@ -147,7 +194,6 @@ allEnemies.push(enemy3);
 allEnemies.push(enemy4);
 
 allEnemies.forEach(function(enemy) {
-    console.log(enemy.y);
     if (enemy.y < 100) {
         enemyPositions.ROW1.push(enemy);
     } else if (enemy.y > 100 && enemy.y < 200) {
@@ -157,8 +203,10 @@ allEnemies.forEach(function(enemy) {
     }
 });
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+/*
+* @description Read the keys pressed by the users and map to
+*              the strings representing directions
+*/
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
         37: 'left',
@@ -169,4 +217,3 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
-

@@ -1,77 +1,93 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>Effective JavaScript: Frogger</title>
     <!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
     <nav class="navbar navbar-default">
         <div class="container">
             <a class="navbar-brand" href="#">Arcade Game</a>
 
             <ul class="nav navbar-nav navbar-right menu">
-                <li><button type="button" class="btn btn-primary" id="start-button">Start</button></li>
-                <li><button type="button" class="btn btn-danger" id="stop-button">Stop</button></li>
-                <li><button type="button" class="btn btn-default" id="rules-button">Rules</button></li>
-                <li><button type="button" class="btn btn-default" id="avatar-button">Pick Avatar</button></li>
+                <li>
+                    <button type="button" class="btn btn-primary" id="start-button">Start</button>
+                </li>
+                <li>
+                    <button type="button" class="btn btn-danger" id="stop-button">Stop</button>
+                </li>
+                <li>
+                    <button type="button" class="btn btn-default" id="rules-button">Rules</button>
+                </li>
+                <li>
+                    <button type="button" class="btn btn-default" id="avatar-button">Pick Avatar</button>
+                </li>
             </ul>
         </div>
     </nav>
     <div id="rules" class="rules-modal-container">
         <div id="rules-cancel" class="cancel">&#10006;</div>
         <div class="modalbox">
-          <h3>Rules</h3>
-          <ul>
-            <li>Choose an Avatar for your player, if you haven't already!</li>
-            <li>Move the player such that it does not come in contact with the enemy bug</li>
-            <li>Use the arrow keys to navigate
-              <ul>
-                <li>&#8593; Moves the player up by one tile</li>
-                <li>&#8595; Moves the player down by one tile</li>
-                <li>&#8592; Moves the player left by one tile</li>
-                <li>&#8595; Moves the player right by one tile</li>
-              </ul>
-            </li>
-          </ul>
+            <h3>Rules</h3>
+            <ul>
+                <li>Choose an Avatar for your player, if you haven't already!</li>
+                <li>Move the player such that it does not come in contact with the enemy bug</li>
+                <li>Use the arrow keys to navigate
+                    <ul>
+                        <li>&#8593; Moves the player up by one tile</li>
+                        <li>&#8595; Moves the player down by one tile</li>
+                        <li>&#8592; Moves the player left by one tile</li>
+                        <li>&#8595; Moves the player right by one tile</li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
     <div id="avatar" class="avatar-modal-container">
         <div id="avatar-cancel" class="cancel">&#10006;</div>
         <div class="modalbox">
-          <h3>Avatars</h3>
-          <ul>
-            <li id="boy" class="list-unstyled"><img src="images/char-boy.png"></li>
-            <li id="cat-girl" class="list-unstyled"><img src="images/char-cat-girl.png"></li>
-            <li id="pink-girl" class="list-unstyled"><img src="images/char-pink-girl.png"></li>
-            <li id="princess" class="list-unstyled"><img src="images/char-princess-girl.png"></li>
-          </ul>
+            <h3>Avatars</h3>
+            <ul>
+                <li id="boy" class="list-unstyled"><img src="images/char-boy.png">
+                </li>
+                <li id="cat-girl" class="list-unstyled"><img src="images/char-cat-girl.png">
+                </li>
+                <li id="pink-girl" class="list-unstyled"><img src="images/char-pink-girl.png">
+                </li>
+                <li id="princess" class="list-unstyled"><img src="images/char-princess-girl.png">
+                </li>
+            </ul>
         </div>
     </div>
     <div class="container">
-	   <div id="canvas-container" class="col-md-6"></div>
-       <div class="col-md-6 intro">
-           <h3>Frogger <small>Old school fun!</small></h3>
-           <ul class="list-unstyled">
-               <li>Lets get started</li>
-               <li>First, this game is ridiculously easy, yet fun!</li>
-               <li>Read the rules if you aren't familiar with the game</li>
-               <li>Click Start when you are ready!</li>
-           </ul>
-       </div>
+        <div id="canvas-container" class="col-md-6"></div>
+        <div class="col-md-6 intro">
+            <h3>Frogger <small>Old school fun!</small></h3>
+            <ul class="list-unstyled">
+                <li>Lets get started</li>
+                <li>First, this game is ridiculously easy, yet fun!</li>
+                <li>Read the rules if you aren't familiar with the game</li>
+                <li>Click Start when you are ready!</li>
+            </ul>
+        </div>
     </div>
     <footer class="col-md-12 footer">
-        <p class="text-center"><em>This site is not responsive. Please play the game on your desktop for the best experience!</em></p>
+        <p class="text-center"><em>This site is not responsive. Please play the game on your desktop for the best experience!</em>
+        </p>
     </footer>
 
     <script src="js/resources.js"></script>
     <script src="js/app.js"></script>
     <script src="js/engine.js"></script>
 </body>
+
 </html>

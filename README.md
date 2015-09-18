@@ -1,3 +1,3 @@
-# arcade-game
-This porject was part of the FEND course at Udacity. The goal of the project is to 
-understand OO JS
+# Synopsis
+
+Arcade game similar to frogger. Project completed as part of the FEND at Udacity
