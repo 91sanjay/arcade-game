@@ -23,7 +23,7 @@ var getRandomPosition = function() {
     var positionArray = [60, 140, 230];
     var i = Math.floor(Math.random()*(positionArray.length));
     return positionArray[i];
-}
+};
 
 /*
 * @class Creates an Enemy object
@@ -63,7 +63,7 @@ Enemy.prototype.render = function() {
 */
 Enemy.prototype.resetPosition = function() {
     this.x = -110;
-}
+};
 
 /*
 * @class Creates an Player object
@@ -75,26 +75,26 @@ Enemy.prototype.resetPosition = function() {
 var Player = function(x, y) {
     this.x = x;
     this.y = y;
-    this.sprite = 'images/char-boy.png'
-}
+    this.sprite = 'images/char-boy.png';
+};
 
 /*
 * @description Renders the sprite of the player on the canvas
 */
 Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y)
-}
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
 
 /*
 * @description Updates the position of the player such that the
 *              player moves from one tile to the other
 * @param {number} dt
 */
-Player.prototype.update = function(dt) {
-    if (checkCollision(this)) {
+Player.prototype.update = function(dt, collision) {
+    if (collision) {
         this.y = 398*dt;
     }
-}
+};
 
 /*
 * @description Updates the sprite of the player
@@ -102,7 +102,7 @@ Player.prototype.update = function(dt) {
 */
 Player.prototype.updateSprite = function(src) {
     this.sprite = src;
-}
+};
 
 /*
 * @description Reset the position of the player
@@ -110,7 +110,7 @@ Player.prototype.updateSprite = function(src) {
 Player.prototype.resetPosition = function() {
     this.x = 0;
     this.y = 398;
-}
+};
 
 /*
 * @description Reads the key strokes and moves the player in the
@@ -131,51 +131,7 @@ Player.prototype.handleInput = function(key) {
     } else if (key == "down" && this.y < 398) {
         this.y += 83;
     }
-}
-
-/*
-* @description Checks for collisions betweeen the player and the
-*              enemies. It checks the enemies that are in the same
-*              row as the player
-* @param {object} player
-*/
-var checkCollision = function(player) {
-    if (player.y < 100) {
-        var enemies = enemyPositions.ROW1;
-        enemies.forEach(function(enemy){
-            if (compareDistance(player,enemy)) {
-                return true;
-            }
-        });
-    } else if (player.y < 200) {
-        var enemies = enemyPositions.ROW2;
-        enemies.forEach(function(enemy){
-            if (compareDistance(player,enemy)) {
-                return true;
-            }
-        });
-    } else {
-        var enemies = enemyPositions.ROW3;
-        enemies.forEach(function(enemy){
-            if (compareDistance(player,enemy)) {
-                return true;
-            }
-        });
-    }
-}
-
-/*
-* @description Helper function for checkCollision. Determines
-*              collisions by checking the difference in x values
-* @param {object} player
-* @param {object} enemy
-*/
-var compareDistance = function(player, enemy) {
-    if (Math.abs(enemy.x - player.x) < 50 && player.y<300) {
-        player.y = 398;
-        return true;
-    }
-}
+};
 
 /*
 * Instantiate the player and enemies. Add enemies to global map

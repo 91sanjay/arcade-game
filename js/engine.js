@@ -3,7 +3,7 @@
  * Modifications have been made to include various features of the game
  */
 
-var Engine = (function(global) {
+var Engine = (function (global) {
     var doc = global.document,
         win = global.window,
         canvas = doc.createElement('canvas'),
@@ -24,15 +24,15 @@ var Engine = (function(global) {
     *              of the game
     */
     function main() {
-        start.onclick = function() {
+        start.onclick = function () {
             stopClick = false;
             play();
-        }
+        };
 
-        stop.onclick = function() {
+        stop.onclick = function () {
             stopClick = true;
             reset();
-        }
+        };
     }
 
     /*
@@ -58,10 +58,59 @@ var Engine = (function(global) {
     *              object to update their positions
     */
     function updateEntities(dt) {
+        var collision;
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
-        player.update();
+
+        collision = checkCollision(player);
+
+        player.update(dt, collision);
+    }
+
+    /*
+    * @description Checks for collisions betweeen the player and the
+    *              enemies. It checks the enemies that are in the same
+    *              row as the player
+    * @param {object} player
+    */
+    var checkCollision = function (player) {
+        var enemies;
+        if (player.y < 100) {
+            enemies = enemyPositions.ROW1;
+            enemies.forEach(function (enemy) {
+                if (compareDistance(player, enemy)) {
+                    return true;
+                }
+            });
+        } else if (player.y < 200) {
+            enemies = enemyPositions.ROW2;
+            enemies.forEach(function (enemy) {
+                if (compareDistance(player, enemy)) {
+                    return true;
+                }
+            });
+        } else {
+            enemies = enemyPositions.ROW3;
+            enemies.forEach(function (enemy) {
+                if (compareDistance(player, enemy)) {
+                    return true;
+                }
+            });
+        }
+    }
+
+    /*
+    * @description Helper function for checkCollision. Determines
+    *              collisions by checking the difference in x values
+    * @param {object} player
+    * @param {object} enemy
+    */
+    var compareDistance = function (player, enemy) {
+        if (Math.abs(enemy.x - player.x) < 50 && player.y < 300) {
+            player.y = 398;
+            return true;
+        }
     }
 
     /*
@@ -93,7 +142,7 @@ var Engine = (function(global) {
     * @description Renders the enemy and player objects
     */
     function renderEntities() {
-        allEnemies.forEach(function(enemy) {
+        allEnemies.forEach(function (enemy) {
             enemy.render();
         });
 
@@ -104,7 +153,7 @@ var Engine = (function(global) {
     * @description Resets the postions of the player and enemy objects
     */
     function reset() {
-        allEnemies.forEach(function(enemy) {
+        allEnemies.forEach(function (enemy) {
             enemy.resetPosition();
         });
 
@@ -125,7 +174,7 @@ var Engine = (function(global) {
         /* Update lastTime for the next invocation of play */
         lastTime = now;
 
-        if(!stopClick) {
+        if (!stopClick) {
             win.requestAnimationFrame(play);
         }
     }
@@ -147,7 +196,7 @@ var Engine = (function(global) {
     function displayRules() {
         var modal = doc.getElementById("rules");
         var display = window.getComputedStyle(modal, '').getPropertyValue("display");
-        if (display == "none") {
+        if (display === "none") {
             modal.style.display = "block";
         }
     }
@@ -158,7 +207,7 @@ var Engine = (function(global) {
     function displayAvatars() {
         var modal = doc.getElementById("avatar");
         var display = window.getComputedStyle(modal, '').getPropertyValue("display");
-        if (display == "none") {
+        if (display === "none") {
             modal.style.display = "block";
         }
     }
@@ -170,7 +219,7 @@ var Engine = (function(global) {
         var modal = doc.getElementById("rules");
         var display = window.getComputedStyle(modal, '').getPropertyValue("display");
 
-        if (display != "none") {
+        if (display !== "none") {
             modal.style.display = "none";
         }
     }
@@ -180,9 +229,9 @@ var Engine = (function(global) {
     */
     function closeAvatar() {
         var modal = doc.getElementById("avatar");
-        var display = window.getComputedStyle(modal, '').getPropertyValue("display");
+        var display = win.getComputedStyle(modal, '').getPropertyValue("display");
 
-        if (display != "none") {
+        if (display !== "none") {
             modal.style.display = "none";
         }
     }
